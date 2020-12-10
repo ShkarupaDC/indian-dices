@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('game.static', filename='css/init_game.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <img src="{{ url_for('game.static', filename='img/dices.png') }}" alt="">
+    <h1>INDIAN DICES</h1>
+    <form action="" method="POST">
+      <input type="text" name="username" id="username" placeholder="Username">
+      <input type="submit" value="Start Game">
+    </form>
+  </div>
+{% endblock %}

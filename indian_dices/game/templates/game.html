@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('game.static', filename='css/game.css') }}">  
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="play-area">
+      <div class="player-board" id="bot">
+        <div class="profile">
+          <img class="profile-image" src="{{ url_for('game.static', filename='img/bot.jpg') }}" alt="">
+          <span class="username">Bot</span>
+        </div>
+        <div class="places">
+          {% for idx in range(dices) %}
+            <div class="place"></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="game-table">
+        <div class="alert"></div>
+      </div>
+      <div class="roll-container">
+        <img id="dice-cup" src="{{ url_for('game.static', filename='img/dice_cup.png') }}" alt="">
+        <button id="roll-button">Roll</button>
+      </div>
+      <div class="player-board" id="user">
+        <div class="profile">
+          <img class="profile-image" src="{{ url_for('game.static', filename='img/user.jpg') }}" alt="">
+          <span class="username">{{ username }}</span>
+        </div>
+        <div class="places">
+          {% for idx in range(dices) %}
+            <div class="place"></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% for idx in range(dices) %}
+        <div class="dice-wrapper" dice-id="{{ idx }}">
+          <div class="dice">
+            {% for side_idx in range(1, sides+1) %}
+              <div class="side" data-side="{{ side_idx }}">
+                {% for _ in range(side_idx) %}
+                  <div class="dot"></div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="game-info">
+      <div class="game-results">
+        <table class="statistic-table">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>First Round</th>
+              <th>Second Round</th>
+              <th>Third Round</th>
+              <th>Result Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr player-id="0">
+              <td>{{ username }}</td>
+              {% for _ in range(4) %}
+                <td></td>
+              {% endfor %}
+            </tr>
+            <tr player-id="1">
+              <td>Bot</td>
+              {% for _ in range(4) %}
+                <td></td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="game-options">
+        <table class="statistic-table">
+          <thead>
+            <tr>
+              <th>Combination</th>
+              <th>Scores</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for name, score in combinations.items() %}
+              <tr>
+                <td class="move-name">{{ name }}</td>
+                <td class="move-score">{{ score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts%}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+  <script type="module" src="{{ url_for('game.static', filename='js/game.js') }}"></script>
+{% endblock %}
